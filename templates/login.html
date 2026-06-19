@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login MBG - Memo Belajar Digital</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=loginfix1">
+</head>
+
+<body class="mbg-login-page">
+  <main class="mbg-login-wrapper" aria-labelledby="loginTitle">
+
+    <section class="mbg-login-card">
+
+      <!-- KIRI -->
+      <div class="mbg-login-left">
+        <div class="mbg-logo-box">
+          <img
+            src="{{ url_for('static', filename='logo-mbg.png') }}"
+            alt="Logo MBG"
+            class="mbg-login-logo"
+          >
+        </div>
+
+        <p class="mbg-eyebrow">Memo Belajar Digital</p>
+
+        <h1 id="loginTitle" class="mbg-login-title">
+          Masuk ke MBG
+        </h1>
+
+        <div class="mbg-demo-box">
+          <div class="mbg-demo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+
+          <div class="mbg-demo-content">
+            <strong>Akun demo</strong>
+
+            <div class="mbg-demo-row">
+              <span>Username</span>
+              <b>admin</b>
+            </div>
+
+            <div class="mbg-demo-row">
+              <span>Password</span>
+              <b>mbg12345</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANAN -->
+      <div class="mbg-login-right">
+        <div class="mbg-form-box">
+          <h2 class="mbg-form-title">Login</h2>
+
+          {% if error %}
+          <div class="mbg-login-error" role="alert">
+            {{ error }}
+          </div>
+          {% endif %}
+
+          <form method="post" action="{{ url_for('login') }}" class="mbg-login-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <div class="mbg-field">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value="{{ username }}"
+                placeholder="admin"
+                autocomplete="username"
+                autofocus
+                required
+              >
+            </div>
+
+            <div class="mbg-field">
+              <label for="password">Password</label>
+
+              <div class="mbg-password-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="mbg12345"
+                  autocomplete="current-password"
+                  required
+                >
+
+                <button
+                  type="button"
+                  class="mbg-eye-btn"
+                  id="togglePassword"
+                  aria-label="Tampilkan atau sembunyikan password"
+                >
+                  <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+
+              <a href="#" class="mbg-forgot-link">Lupa Password?</a>
+            </div>
+
+            <button type="submit" class="mbg-login-button">
+              Masuk
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="{{ url_for('static', filename='login.js') }}?v=loginfix2"></script>
+</body>
+</html>

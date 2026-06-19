@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>MBG - Memo Belajar Digital</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=final15">
+</head>
+<body class="sidebar-collapsed">
+  <header class="app-topbar">
+    <div class="brand-area">
+      <button type="button" class="icon-button menu-button" id="sidebarToggle" aria-label="Buka/tutup sidebar" aria-pressed="false">&#9776;</button>
+      <img src="{{ url_for('static', filename='logo-mbg.png') }}" alt="Logo MBG" class="app-logo">
+      <div class="brand-copy">
+        <h1>MBG</h1>
+        <p>Memo Belajar Digital</p>
+      </div>
+    </div>
+
+    <label class="top-search" for="searchInput">
+      <span aria-hidden="true">&#8981;</span>
+      <input type="search" id="searchInput" placeholder="Cari catatan, label, favorit, atau deadline..." autocomplete="off">
+    </label>
+
+    <div class="top-actions">
+      <span class="user-chip" title="User aktif">{{ current_user }}</span>
+      <form action="{{ url_for('logout') }}" method="post" class="logout-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button type="submit" class="btn btn-ghost">Keluar</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="app-shell" id="appShell">
+    <aside class="side-panel" id="sidePanel" aria-label="Navigasi catatan">
+      <button type="button" class="side-item active" data-view="all" title="Catatan">
+        <span class="side-icon" aria-hidden="true">&#9998;</span>
+        <span class="side-text">Catatan</span>
+        <b id="allCount">0</b>
+      </button>
+      <button type="button" class="side-item" data-view="favorite" title="Favorit">
+        <span class="side-icon" aria-hidden="true">&#9733;</span>
+        <span class="side-text">Favorit</span>
+        <b id="favoriteCount">0</b>
+      </button>
+      <button type="button" class="side-item label-summary" id="labelSummaryButton" title="Label">
+        <span class="side-icon" aria-hidden="true">#</span>
+        <span class="side-text">Label</span>
+        <b id="labelSummaryCount">0</b>
+      </button>
+
+      <div class="side-label-head">
+        <span>Label</span>
+        <small id="labelCount">0</small>
+      </div>
+      <div id="labelFilterList" class="label-filter-list"></div>
+    </aside>
+
+    <section class="workspace" aria-labelledby="workspaceTitle">
+      <div id="message" class="message toast" role="status" aria-live="polite"></div>
+
+      <div class="notes-content-shell">
+        <section class="composer-area" aria-label="Tambah catatan">
+          <section id="composerCard" class="quick-composer collapsed" aria-labelledby="formTitle">
+            <form id="noteForm">
+              <button type="button" id="composerPrompt" class="composer-prompt">Tulis catatan...</button>
+              <input type="text" id="title" name="title" class="composer-title" placeholder="Judul catatan" autocomplete="off">
+              <textarea id="content" name="content" rows="2" class="composer-content" placeholder="Tulis catatan..."></textarea>
+
+              <div class="composer-expanded">
+                <div class="composer-row">
+                  <div class="form-group compact-field">
+                    <label for="tags">Label</label>
+                    <input type="text" id="tags" name="tags" placeholder="Contoh: Kuliah, UAS, Reminder">
+                    <small>Pisahkan label dengan koma.</small>
+                  </div>
+
+                  <div class="form-group compact-field compact-date">
+                    <label for="deadline">Deadline</label>
+                    <input type="date" id="deadline" name="deadline">
+                  </div>
+                </div>
+
+                <div class="composer-actions">
+                  <label class="favorite-check" for="favorite">
+                    <input type="checkbox" id="favorite" name="favorite">
+                    <span>&#9733;</span>
+                    Jadikan favorit
+                  </label>
+
+                  <div class="composer-buttons">
+                    <button type="button" id="resetButton" class="btn btn-secondary">Tutup</button>
+                    <button type="submit" id="submitButton" class="btn btn-primary">Simpan</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </section>
+        </section>
+
+        <section class="notes-section" aria-labelledby="workspaceTitle">
+          <div class="notes-header">
+            <div>
+              <span id="activeViewLabel" class="eyebrow">Semua Catatan</span>
+              <h2 id="workspaceTitle">Catatan</h2>
+            </div>
+
+            <div class="notes-tools">
+              <span id="noteCount" class="note-count">0 catatan</span>
+              <label class="sort-box" for="sortSelect">
+                <span>Urutkan</span>
+                <select id="sortSelect">
+                  <option value="manual">Urutan manual</option>
+                  <option value="created_desc">Terbaru dibuat</option>
+                  <option value="updated_desc">Terakhir diupdate</option>
+                  <option value="title_asc">Judul A-Z</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div id="notesList" class="notes-grid"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="noteModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" data-modal-close></div>
+    <section class="modal-content keep-modal" role="dialog" aria-modal="true" aria-labelledby="readTitle">
+      <button type="button" class="modal-close" id="modalCloseButton" aria-label="Tutup modal">&times;</button>
+
+      <article id="modalReadView" class="modal-read-view">
+        <header class="read-header">
+          <div>
+            <span class="eyebrow">Detail Catatan</span>
+            <h2 id="readTitle">Judul Catatan</h2>
+          </div>
+          <button type="button" id="readFavoriteButton" class="read-favorite-button" aria-label="Toggle favorit">&#9734;</button>
+        </header>
+
+        <div id="readContent" class="read-content"></div>
+
+        <div class="read-chips">
+          <div id="readLabels" class="read-labels"></div>
+          <div id="readDeadline" class="read-deadline"></div>
+        </div>
+
+        <footer class="read-footer">
+          <div class="read-meta">
+            <span id="readCreatedAt">Dibuat: -</span>
+            <span id="readUpdatedAt">Diperbarui: -</span>
+          </div>
+          <div class="read-actions">
+            <button type="button" id="readEditButton" class="btn btn-primary">Edit</button>
+            <button type="button" id="readDeleteButton" class="btn btn-danger">Hapus</button>
+            <button type="button" id="readCloseButton" class="btn btn-secondary">Tutup</button>
+          </div>
+        </footer>
+      </article>
+
+      <div id="modalEditView" class="modal-edit-view hidden">
+        <div class="modal-heading">
+          <span class="eyebrow">Edit Catatan</span>
+          <h2 id="modalTitleLabel">Ubah Catatan</h2>
+        </div>
+
+        <div id="modalMessage" class="message modal-message" role="status" aria-live="polite"></div>
+
+        <form id="modalForm">
+          <div class="form-group">
+            <label for="modalTitle">Judul Catatan</label>
+            <input type="text" id="modalTitle" name="modalTitle" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="modalContent">Isi Catatan Lengkap</label>
+            <textarea id="modalContent" class="modal-textarea" name="modalContent" rows="10"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="modalTags">Label</label>
+              <input type="text" id="modalTags" name="modalTags" placeholder="Pisahkan label dengan koma">
+            </div>
+
+            <div class="form-group">
+              <label for="modalDeadline">Deadline</label>
+              <input type="date" id="modalDeadline" name="modalDeadline">
+            </div>
+          </div>
+
+          <label class="favorite-check modal-favorite" for="modalFavorite">
+            <input type="checkbox" id="modalFavorite" name="modalFavorite">
+            <span>&#9733;</span>
+            Catatan favorit
+          </label>
+
+          <div class="modal-meta">
+            <span id="modalCreatedAt">Dibuat: -</span>
+            <span id="modalUpdatedAt">Diperbarui: -</span>
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            <button type="button" id="modalCancelButton" class="btn btn-secondary">Batal</button>
+            <button type="button" id="modalDeleteButton" class="btn btn-danger">Hapus</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}?v=final15"></script>
+</body>
+</html>

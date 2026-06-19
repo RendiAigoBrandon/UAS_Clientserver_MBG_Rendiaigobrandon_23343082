@@ -1,0 +1,106 @@
+[
+  {
+    "id": "d8b931ea-e453-40c2-95dd-13ca7bd8bac9",
+    "owner": "admin",
+    "title": "Rangkuman UAS Client Server Programming - MBG Note Taking",
+    "content": "Aplikasi MBG atau Memo Belajar Digital adalah aplikasi note taking berbasis client-server yang dibuat untuk memenuhi tugas akhir mata kuliah Client Server Programming. Aplikasi ini meniru fitur inti dari Google Keep, yaitu menambah catatan, melihat daftar catatan, mengedit catatan, menghapus catatan, memberi label, menandai favorit, mencari catatan, dan mengurutkan catatan berdasarkan waktu atau status tertentu.\n\nDari sisi arsitektur, aplikasi ini menggunakan model client-server sederhana. Client berupa halaman web yang dijalankan melalui browser, sedangkan server menggunakan Flask sebagai backend. Komunikasi antara client dan server dilakukan menggunakan protokol HTTP dengan format data JSON. Ketika user menambah catatan, browser mengirim request ke server melalui endpoint API. Server kemudian memvalidasi input, menyimpan data ke file JSON, lalu mengirimkan respons kembali ke client.\n\nFitur utama aplikasi ini adalah CRUD catatan. CRUD merupakan singkatan dari Create, Read, Update, dan Delete. Create digunakan untuk membuat catatan baru. Read digunakan untuk menampilkan daftar catatan dan membaca detail catatan. Update digunakan untuk mengubah isi catatan, label, deadline, atau status favorit. Delete digunakan untuk menghapus catatan yang tidak diperlukan lagi.\n\nAplikasi MBG juga memiliki sistem label seperti Google Keep. Label tidak diperlakukan sebagai folder, melainkan sebagai tag. Satu catatan dapat memiliki lebih dari satu label, misalnya catatan tentang “Jadwal UAS” dapat diberi label “Kuliah”, “UAS”, dan “Prioritas”. Dengan sistem ini, user lebih fleksibel dalam mengelompokkan catatan tanpa harus memindahkan catatan ke folder tertentu.\n\nDari sisi UI/UX, aplikasi dibuat dengan tampilan modern bergaya Google Keep. Terdapat header, search bar, sidebar, composer “Tulis catatan...”, grid card catatan, modal baca catatan, dan efek hover pada tombol aksi. Card catatan dibuat menyesuaikan panjang isi catatan. Jika isi catatan pendek, box tetap pendek. Jika isi catatan panjang, box akan memanjang ke bawah sehingga isi lebih mudah dibaca.\n\nAplikasi juga dilengkapi fitur suara dan animasi. Saat user menekan box “Tulis catatan...”, membuka catatan, atau menekan tombol edit, sistem memutar suara buku terbuka. Selain itu, ketika user membuka detail catatan, muncul animasi seperti kertas terbuka. Fitur ini ditambahkan agar aplikasi terasa lebih interaktif dan tidak terlalu kaku.\n\nDari sisi keamanan, aplikasi ini sudah memiliki login sederhana, session, CSRF token, validasi input, security headers, dan penyimpanan password dalam bentuk hash. Walaupun begitu, aplikasi ini masih ditujukan untuk demo lokal atau localhost, sehingga belum cocok langsung dipakai di server publik tanpa pengembangan tambahan seperti HTTPS, database yang lebih kuat, autentikasi multi-user, dan pembatasan akses yang lebih lengkap.\n\nKesimpulannya, MBG Note Taking berhasil mereplikasi fitur inti aplikasi note taking berbasis client-server. Aplikasi ini sudah memenuhi kebutuhan dasar tugas, yaitu implementasi REST API CRUD, penggunaan client web, penyimpanan data, serta demonstrasi interaksi antara client dan server. Ke depannya, aplikasi dapat dikembangkan dengan fitur arsip, reminder, sinkronisasi akun, database SQLite atau PostgreSQL, serta deployment ke server online.",
+    "created_at": "2026-06-18T15:11:54",
+    "updated_at": "2026-06-18T15:11:54",
+    "order": 2,
+    "labels": [
+      "UAS",
+      "Client Server"
+    ],
+    "favorite": true,
+    "deadline": "2026-06-27"
+  },
+  {
+    "id": "dummy-001",
+    "owner": "admin",
+    "title": "Rangkuman Client Server",
+    "content": "Client-server adalah model komunikasi antara client yang meminta layanan dan server yang menyediakan layanan.\n\nPoin penting:\n- Client mengirim request\n- Server memproses request\n- Response dikirim kembali ke client\n- Protokol yang dipakai pada web ini adalah HTTP dengan format data JSON",
+    "created_at": "2026-06-18T09:00:00",
+    "updated_at": "2026-06-18T09:00:00",
+    "order": 3,
+    "labels": [
+      "UAS",
+      "Client Server"
+    ],
+    "favorite": true,
+    "deadline": "2026-06-26"
+  },
+  {
+    "id": "dummy-002",
+    "owner": "admin",
+    "title": "Checklist Fitur MBG",
+    "content": "Yang sudah ada:\n✓ Login\n✓ Tambah catatan\n✓ Edit dan hapus catatan\n✓ Favorit\n✓ Multi-label\n✓ Deadline\n✓ Search dan sort\n✓ Drag and drop urutan catatan",
+    "created_at": "2026-06-18T09:15:00",
+    "updated_at": "2026-06-18T13:18:09",
+    "order": 4,
+    "labels": [
+      "Client Server"
+    ],
+    "favorite": true,
+    "deadline": ""
+  },
+  {
+    "id": "dummy-003",
+    "owner": "admin",
+    "title": "Belanja Bulanan",
+    "content": "Sampo\nSabun\nCuci muka\nSunlight\nRinso\nGula\nSabon colek\nKecap\nSaos\nTisu\nMinyak\nBeras",
+    "created_at": "2026-06-18T09:30:00",
+    "updated_at": "2026-06-18T09:30:00",
+    "order": 1,
+    "labels": [
+      "Belanja",
+      "Rumah"
+    ],
+    "favorite": false,
+    "deadline": ""
+  },
+  {
+    "id": "dummy-004",
+    "owner": "admin",
+    "title": "Ide UI Google Keep",
+    "content": "Catatan harus terasa ringan:\n- Box menyesuaikan isi\n- Card pendek tetap pendek\n- Card panjang memanjang ke bawah\n- Aksi muncul saat hover\n- Sidebar bisa dibuka dan ditutup\n- Composer bisa diklik dari seluruh area box",
+    "created_at": "2026-06-18T10:00:00",
+    "updated_at": "2026-06-18T10:00:00",
+    "order": 7,
+    "labels": [
+      "UIUX",
+      "Project MBG"
+    ],
+    "favorite": false,
+    "deadline": ""
+  },
+  {
+    "id": "dummy-005",
+    "owner": "admin",
+    "title": "Ukuran Paralon",
+    "content": "pipa 1/2 35cm = 2\n10cm = 6\n30cm = 2\n3cm = 1\n15cm = 1\n80cm = 1",
+    "created_at": "2026-06-18T10:15:00",
+    "updated_at": "2026-06-18T15:12:58",
+    "order": 6,
+    "labels": [
+      "Rumah",
+      "Catatan Teknis"
+    ],
+    "favorite": false,
+    "deadline": "2026-06-25"
+  },
+  {
+    "id": "dummy-006",
+    "owner": "admin",
+    "title": "Makanan Kucing",
+    "content": "MAXI\nRoyal canin",
+    "created_at": "2026-06-18T10:30:00",
+    "updated_at": "2026-06-18T15:13:59",
+    "order": 5,
+    "labels": [
+      "Belanja",
+      "Kucing"
+    ],
+    "favorite": false,
+    "deadline": ""
+  }
+]
