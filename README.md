@@ -143,13 +143,11 @@ Password : mbg12345
 ### 1. Clone atau Download Project
 
 ```bash
-git clone https://github.com/username/nama-repository.git
+git clone https://github.com/RendiAigoBrandon/UAS_Clientserver_MBG_Rendiaigobrandon_23343082.git
 cd UAS_Clientserver_MBG_Rendiaigobrandon_23343082
 ```
 
 Atau download ZIP dari GitHub, lalu ekstrak folder project.
-
----
 
 ### 2. Install Library yang Dibutuhkan
 
