@@ -61,32 +61,44 @@ Aplikasi MBG menunjukkan bagaimana browser sebagai **client** berkomunikasi deng
 
 ## 🧩 Arsitektur Client-Server
 
-```text
-CLIENT / BROWSER
-HTML, CSS, JavaScript
-        |
-        | HTTP Request / Fetch API
-        v
-SERVER / FLASK
-Routing, REST API, Session, CSRF, Validasi
-        |
-        | Read / Write
-        v
-DATA STORAGE
-notes.json, users.json, static assets
+Aplikasi **MBG (Memo Belajar Digital)** menggunakan arsitektur **client-server berbasis web**.
+Browser berperan sebagai **client**, Flask berperan sebagai **server**, sedangkan data catatan dan akun disimpan dalam file **JSON**.
+
+```mermaid
+flowchart LR
+    A["CLIENT / BROWSER<br>HTML • CSS • JavaScript<br>Fetch API"]
+    B["HTTP / REST API<br>GET • POST • PUT • DELETE<br>Port 5000<br>Format JSON"]
+    C["SERVER / FLASK<br>Routing • Session • CSRF<br>Validasi • Security Headers"]
+    D["DATA STORAGE<br>notes.json<br>users.json<br>static assets"]
+
+    A -->|Request| B
+    B -->|API Endpoint| C
+    C -->|Read / Write| D
+    D -->|Data JSON| C
+    C -->|Response JSON| B
+    B -->|Update UI| A
 ```
 
-Alur kerja aplikasi:
+### Alur Kerja Aplikasi
 
-1. User membuka aplikasi melalui browser.
+1. User membuka aplikasi MBG melalui browser.
 2. User login menggunakan akun demo.
-3. Browser mengirim request ke server Flask.
+3. Browser mengirim request ke server Flask melalui HTTP.
 4. Server memproses request melalui endpoint REST API.
-5. Data catatan dibaca atau ditulis ke file JSON.
-6. Server mengirim response JSON ke browser.
-7. Browser memperbarui tampilan catatan tanpa reload penuh.
+5. Data catatan dibaca atau ditulis ke file `notes.json`.
+6. Server mengirim response dalam format JSON ke browser.
+7. Browser memperbarui tampilan catatan tanpa reload halaman penuh.
 
----
+### Pembagian Komponen
+
+| Komponen     | Implementasi               | Fungsi                                                     |
+| ------------ | -------------------------- | ---------------------------------------------------------- |
+| Client       | HTML, CSS, JavaScript      | Menampilkan UI dan mengirim request ke server              |
+| Server       | Python Flask               | Memproses routing, login, REST API, validasi, dan keamanan |
+| Data Storage | `notes.json`, `users.json` | Menyimpan data catatan dan akun pengguna                   |
+| Komunikasi   | HTTP + Fetch API           | Menghubungkan client dan server                            |
+| Format Data  | JSON                       | Format pertukaran data antara client dan server            |
+
 
 ## 📁 Struktur Folder
 
